@@ -1,0 +1,18 @@
+#!/bin/bash
+
+echo HOSTNAME = $(hostname)
+echo TIMEZONE = $(timedatectl | grep 'Time zone:' | sed 's/Time zone: //')
+echo USER = $(whoami)
+echo OS = $(hostnamectl | grep 'Operating System:' | sed 's/Operating System: //')
+echo DATE = $(date +"%d %b %Y %T")
+echo UPTIME = $(uptime -p)
+echo UPTIME_SEC = $(awk '{print $1}' /proc/uptime)
+echo IP = $(ip a | grep inet | sed 's/\/../ /' | sed -n '1'p | awk '{print $2}')
+echo MASK = $(ifconfig lo | grep netmask | awk '{print $4}')
+echo GATEWAY = $(ip route | grep 'default via' | awk '{print $3}')
+echo RAM_TOTAL = $(free -h | awk '/Mem:/{printf "%.3f GB", $2 / 1024}')
+echo RAM_USED = $(free -h | awk '/Mem:/{printf "%.3f GB", $3 / 1024}')
+echo RAM_FREE = $(free -h | awk '/Mem:/{printf "%.3f GB", $4 / 1024}')
+echo SPACE_ROOT = $(df -BK | grep '/$' | awk '{printf "%.2f MB", $2/1024}')
+echo SPACE_ROOT_USED = $(df -BK | grep '/$' | awk '{printf "%.2f MB", $3/1024}')
+echo SPACE_ROOT_FREE = $(df -BK | grep '/$' | awk '{printf "%.2f MB", $4/1024}')
